@@ -12,7 +12,6 @@ def study_days_to_fomc_x_prediction_error_dependency(input, shift):
 
     av_bucket_size = int(n_days_to_last_bucket / n_buckets)
     separators = [ x * av_bucket_size for x in range(n_buckets + 1)]
-    # separators = [0,20,40,60,80,100,120,140,160,180,200]
 
     def create_categories(input, separators, av_bucket_size):
         input["category"] = np.nan

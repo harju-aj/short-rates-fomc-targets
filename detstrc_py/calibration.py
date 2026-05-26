@@ -149,14 +149,14 @@ def infer_parameters_from_futures(date, prices, FOMC_dates, historical_rates_fra
     fomc_months_indicator_for_calibration = fomc_months_indicator
     days_to_fomc_for_calibration = days_to_fomc
     market_prices_for_calibration = prices
-    # discount_factors_for_calibration = discount_factors
-    
+
     jump_means_prior = [0.002] * n_fomc_dates
     result = optimize.minimize(future_prices_error, jump_means_prior, method='Nelder-Mead', tol=0.000001)
     return result.x
 
 def infer_parameters_from_curve(this_date, this_rates, this_fomc_dates, this_effr_rate, n_jumps_from_curve):
 
+    # not optimal to use globals -- OK because no parallel computations done.
     global this_effr_for_calibration
     global n_days_to_fomc_for_calibration
     global rates_for_calibration

@@ -33,8 +33,6 @@ pip install -r requirements.txt
 
 ## Running the project
 
-Example:
-
 ```bash
 python app.py
 ```

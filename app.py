@@ -75,7 +75,6 @@ def read_data_from_files_and_prepare_inputs():
     fomc_dates_alt["date"] = pd.to_datetime(fomc_dates_alt["fomc-date"], format="%Y%m%d")
 
     # effr rates -- the inputs are in pct units, and transformed to decimal units: 
-    # effr_rates = pd.read_csv(os.path.join(data_directory, "effr.csv"))
     effr_rates = pd.read_csv(os.path.join(data_directory, "DFF.csv"))
     effr_rates = data_helpers.smooth_effrs(effr_rates, fomc_dates)
     effr_rates["date"] = pd.to_datetime(effr_rates["date"])
@@ -93,7 +92,7 @@ def read_data_from_files_and_prepare_inputs():
     futures_prices = futures_prices.drop("contract", axis = 1) # contract column is not needed anymore.
 
     # to price Fed funds futures, we need EFFR to be forward filled over weekends and holidays.
-    # EFFR is available on eacn calendar date (not only business dates).
+    # EFFR is available on each calendar date (not only business dates).
     effr_rates = data_helpers.forward_fill_columns(effr_rates, calendar_dates, ["effr"])
     rates = data_helpers.forward_fill_columns(rates, dates, ["1mo", "3mo", "6mo"])
     return rates, effr_rates, futures_prices, fomc_dates, fomc_dates_alt
@@ -438,7 +437,7 @@ def do_risk_case_studies(effr_rates, delta_observed, predicted_rates_linear, par
     for frame in nojump_sensitivities.values():
         frame["level"] = 1.0   
     
-    # Index '1' is the model (instaed of the benchmark used earlier)
+    # Index '1' is the model (instead of the benchmark used earlier)
     predicted_rates_linear_model = predicted_rates_linear.loc['1'].reset_index()
     # phi_5d column has the expected rate changes over the 5d risk window: 
     predicted_rates_linear_model['phi_5d'] = predicted_rates_linear_model['rate_roll_5d'] - predicted_rates_linear_model['rate']
@@ -515,7 +514,6 @@ if __name__ == "__main__":
     if CALIBRATION_MODE:     
         calibration_results = calibration.calibrate_parameters(effr_rates, fomc_dates, fomc_dates_alt, futures_prices, rates, BUMP_UP_TRAINING_HORIZON - BUMP_DOWN_TRAINING_HORIZON)
         calibration_results.to_csv(calibration_results_file, index = False)
-        # predicted_rates has the rates predicted by the model, and benchmark 3, on the valuation dates, and at the 1-bday, 5-bday and 10-bday risk horizons.
         predicted_rates, predicted_rates_linear = get_predicted_model_rates(calibration_results)
         predicted_rates.to_csv(predicted_rates_file)
         predicted_rates_linear.to_csv(predicted_linear_rates_file)

@@ -316,9 +316,7 @@ def test_numerical_accuracy_one_case(deltas, curves, tenor, horizon, window):
 
     for x in  this_test_years[0:-1]: 
         this_test_one_year = this_test.loc[this_test["year"] == x]
-        # this_test_one_year["b1_vs_m_b1"] = 1 if benchmark 1 has more accurate prediction than model, and 0 otherwise 
         this_test_one_year["b1_vs_m_b1"] = np.where(this_test_one_year[b1col] < this_test_one_year[mcol] , 1, 0)
-        # this_test_one_year["b1_vs_m_m"] = 1 if model has more accurate prediction than benchmark 1, and 0 otherwise 
         this_test_one_year["b1_vs_m_m"] = np.where(this_test_one_year[mcol] < this_test_one_year[b1col], 1, 0)
         this_test_one_year["b2_vs_m_b2"] = np.where(this_test_one_year[b2col] < this_test_one_year[mcol], 1, 0)
         this_test_one_year["b2_vs_m_m"] = np.where(this_test_one_year[mcol] < this_test_one_year[b2col], 1, 0)

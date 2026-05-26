@@ -100,13 +100,11 @@ def get_risk_factors_one_horizon_nojump(parameters, dates, fomc_dates_column):
     risk_dates_parameters_effr_pivot = risk_dates_parameters_first_fomc.pivot(index = 'date', columns =  fomc_dates_column)["effr"]
     risk_dates_parameters_effr_pivot = risk_dates_parameters_effr_pivot.sort_values("date")
     delta_effrs = risk_dates_parameters_effr_pivot.shift(-1) - risk_dates_parameters_effr_pivot
-    # delta_effrs = delta_effrs.stack().reset_index().drop(fomc_dates_column, axis = 1)
     delta_effrs = delta_effrs.stack().dropna().reset_index().drop(fomc_dates_column, axis=1)
     delta_effrs.columns = ["date", "delta_effr"]
     
     risk_dates_parameters_jump_pivot = risk_dates_parameters_first_fomc.pivot(index = 'date', columns = fomc_dates_column)["jump"]
     delta_jumps = risk_dates_parameters_jump_pivot.shift(-1) - risk_dates_parameters_jump_pivot
-    # delta_jumps = delta_jumps.stack().dropna().reset_index().drop(fomc_dates_column, axis = 1)
     delta_jumps = delta_jumps.stack().dropna().reset_index().drop(fomc_dates_column, axis=1)
     delta_jumps.columns = ["date", unique_fomcs[0]]
 
@@ -117,7 +115,6 @@ def get_risk_factors_one_horizon_nojump(parameters, dates, fomc_dates_column):
         risk_dates_parameters_this_fomc = risk_dates_parameters.loc[risk_dates_parameters["fomc"] == x]
         risk_dates_parameters_jump_pivot = risk_dates_parameters_this_fomc.pivot(index = 'date', columns = fomc_dates_column)["jump"]
         delta_jumps = risk_dates_parameters_jump_pivot.shift(-1) - risk_dates_parameters_jump_pivot
-        # delta_jumps = delta_jumps.stack().dropna().reset_index().drop(fomc_dates_column, axis = 1)
         delta_jumps = delta_jumps.stack().dropna().reset_index().drop(fomc_dates_column, axis = 1)
 
         delta_jumps.columns = ["date", x]
