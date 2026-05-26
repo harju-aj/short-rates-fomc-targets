@@ -7,7 +7,7 @@
 Clone the repository:
 
 ```bash
-git clone <https://github.com/harju-aj/short-rates-fomc-targets.git>
+git clone https://github.com/harju-aj/short-rates-fomc-targets.git
 cd short-rates-fomc-targets
 ```
 
