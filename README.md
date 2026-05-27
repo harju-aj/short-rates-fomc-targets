@@ -1,4 +1,4 @@
-# Factors Explaining Short-Term Rate Changes in Response to FOMC Target Rate Expectations
+# Factors Explaining Short-Term Rate Changes in Response to FOMC Target Rate Manipulation
 
 ---
 
